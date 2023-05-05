@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_breast_cancer
 from sklearn.tree import DecisionTreeClassifier
 
+#TOTAL IMPURITY OF LEAVES VS EFFECTIVE ALPHAS OF PRUNED TREE
 
 X, y = load_breast_cancer(return_X_y=True)
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
@@ -45,3 +46,17 @@ ax[1].set_xlabel("alpha")
 ax[1].set_ylabel("depth of tree")
 ax[1].set_title("Depth vs alpha")
 fig.tight_layout()
+
+#ACCURACY VS ALPHA FOR TRAINING AND TESTING TEST
+
+train_scores = [clf.score(X_train, y_train) for clf in clfs]
+test_scores = [clf.score(X_test, y_test) for clf in clfs]
+
+fig, ax = plt.subplots()
+ax.set_xlabel("alpha")
+ax.set_ylabel("accuracy")
+ax.set_title("Accuracy vs alpha for training and testing sets")
+ax.plot(ccp_alphas, train_scores, marker="o", label="train", drawstyle="steps-post")
+ax.plot(ccp_alphas, test_scores, marker="o", label="test", drawstyle="steps-post")
+ax.legend()
+plt.show()
